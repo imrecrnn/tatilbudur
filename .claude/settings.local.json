@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.tatilbudur.com)",
+      "Read(//var/folders/13/47p00z594qng3hxl0gnrzpb00000gn/T/TemporaryItems/NSIRD_screencaptureui_yVkY5P/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
