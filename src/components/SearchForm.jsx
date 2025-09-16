@@ -4,6 +4,7 @@ import './SearchForm.css';
 
 const SearchForm = () => {
   const [searchType, setSearchType] = useState('hotels');
+  const [flightType, setFlightType] = useState('roundtrip');
   const [formData, setFormData] = useState({
     destination: '',
     checkIn: '',
@@ -88,13 +89,52 @@ const SearchForm = () => {
 
             {searchType === 'flights' && (
               <>
+                <div className="flight-options">
+                  <div className="radio-group">
+                    <div className="radio-option">
+                      <input
+                        type="radio"
+                        id="roundtrip"
+                        name="flightType"
+                        value="roundtrip"
+                        checked={flightType === 'roundtrip'}
+                        onChange={(e) => setFlightType(e.target.value)}
+                      />
+                      <label htmlFor="roundtrip">Gidiş-Dönüş</label>
+                    </div>
+                    <div className="radio-option">
+                      <input
+                        type="radio"
+                        id="oneway"
+                        name="flightType"
+                        value="oneway"
+                        checked={flightType === 'oneway'}
+                        onChange={(e) => setFlightType(e.target.value)}
+                      />
+                      <label htmlFor="oneway">Tek Yön</label>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="field-group">
                   <input
                     type="date"
+                    placeholder="Gidiş Tarihi"
                     value={formData.checkIn}
                     onChange={(e) => handleInputChange('checkIn', e.target.value)}
                   />
                 </div>
+
+                {flightType === 'roundtrip' && (
+                  <div className="field-group">
+                    <input
+                      type="date"
+                      placeholder="Dönüş Tarihi"
+                      value={formData.checkOut}
+                      onChange={(e) => handleInputChange('checkOut', e.target.value)}
+                    />
+                  </div>
+                )}
 
                 <div className="field-group passenger-info">
                   <span className="passenger-count">{formData.guests} Yolcu</span>

@@ -36,9 +36,14 @@
 
 .search-form-tour {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr auto;
+  grid-template-columns: 2fr 2fr 1fr auto;
   gap: 8px;
   align-items: stretch;
+}
+
+.date-selector-group {
+  display: flex;
+  gap: 4px;
 }
 
 .search-form-tour .btn {

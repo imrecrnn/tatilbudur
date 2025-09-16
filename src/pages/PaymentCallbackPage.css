@@ -1,0 +1,281 @@
+/* Payment Callback Page Styles */
+.payment-callback-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  padding: 20px;
+}
+
+.callback-container {
+  max-width: 600px;
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  text-align: center;
+}
+
+.callback-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.callback-content h2 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.callback-content p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Loading State */
+.callback-content.loading {
+  color: #666;
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+  color: var(--primary-color, #007bff);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Success State */
+.callback-content.success {
+  color: #28a745;
+}
+
+.success-icon {
+  color: #28a745;
+  margin-bottom: 10px;
+}
+
+.payment-details {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  text-align: left;
+  width: 100%;
+}
+
+.payment-details h3 {
+  margin: 0 0 15px 0;
+  font-size: 1.2rem;
+  color: #333;
+  text-align: center;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-item span:first-child {
+  font-weight: 500;
+  color: #666;
+}
+
+.detail-item span:last-child {
+  font-weight: 600;
+  color: #333;
+}
+
+.redirect-message {
+  font-style: italic;
+  color: #666;
+  margin-top: 20px;
+}
+
+/* Reservation Code Styles */
+.reservation-code {
+  background: #f0f9ff;
+  border: 2px solid #0b5ed7;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.reservation-code h3 {
+  margin: 0 0 12px 0;
+  color: #0b5ed7;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.code-display {
+  background: white;
+  border: 2px dashed #0b5ed7;
+  border-radius: 8px;
+  padding: 16px;
+  font-family: 'Courier New', monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0b5ed7;
+  letter-spacing: 2px;
+  margin: 12px 0;
+  user-select: all;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.code-display:hover {
+  background: #f8f9fa;
+  transform: scale(1.02);
+}
+
+.reservation-code p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Error State */
+.callback-content.error {
+  color: #dc3545;
+}
+
+.error-icon {
+  color: #dc3545;
+  margin-bottom: 10px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.btn-primary {
+  background: var(--primary-color, #007bff);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark, #0056b3);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #545b62;
+  transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .callback-container {
+    padding: 30px 20px;
+  }
+  
+  .callback-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  .callback-content p {
+    font-size: 1rem;
+  }
+  
+  .payment-details {
+    padding: 15px;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .payment-callback-page {
+    padding: 10px;
+  }
+  
+  .callback-container {
+    padding: 20px 15px;
+  }
+  
+  .callback-content h2 {
+    font-size: 1.3rem;
+  }
+  
+  .detail-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+}
+
+/* Success Message Styles */
+.success-message {
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  text-align: left;
+}
+
+.success-message p {
+  margin: 8px 0;
+  color: #155724;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.success-message p:first-child {
+  margin-top: 0;
+}
+
+.success-message p:last-child {
+  margin-bottom: 0;
+}

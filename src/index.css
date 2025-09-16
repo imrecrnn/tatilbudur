@@ -27,6 +27,31 @@ body {
   background-color: var(--background-light);
 }
 
+/* Calendar positioning for date inputs */
+input[type="date"] {
+  position: relative;
+}
+
+/* Ensure calendar appears below the input field */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  color: transparent;
+  background: transparent;
+  cursor: pointer;
+  z-index: 999;
+}
+
+/* Calendar dropdown positioning */
+input[type="date"]:focus {
+  z-index: 1000;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;

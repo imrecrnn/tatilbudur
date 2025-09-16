@@ -7,3 +7,20 @@
 .main-content {
   flex: 1;
 }
+
+/* Premium Page Layout */
+.app.premium-page-layout {
+  background-color: #003E69;
+}
+
+.app.premium-page-layout .main-content {
+  background-color: #003E69;
+}
+
+.app.premium-page-layout header {
+  background-color: #003E69 !important;
+}
+
+.app.premium-page-layout footer {
+  background-color: #003E69 !important;
+}

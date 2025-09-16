@@ -1,9 +1,128 @@
-import React, { useState } from 'react';
-import { Calendar, MapPin, Users, Clock, Star, Camera, Bus, Utensils } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
+import { Calendar, MapPin, Users, Clock, Star, Camera, Bus, Utensils, Loader2, SlidersHorizontal } from 'lucide-react';
 import './ToursPage.css';
 
 const ToursPage = () => {
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState('domestic');
+  const [selectedMonth, setSelectedMonth] = useState('');
+  const [selectedYear, setSelectedYear] = useState('');
+
+  // API state
+  const [tours, setTours] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [destinationFilter, setDestinationFilter] = useState('');
+  const [pageTitle, setPageTitle] = useState('Tüm Turlar');
+  const [filters, setFilters] = useState({
+    category: '',
+    priceRange: [0, 3000],
+    sortBy: 'popularity'
+  });
+
+  const months = [
+    { value: '01', label: 'Ocak' },
+    { value: '02', label: 'Şubat' },
+    { value: '03', label: 'Mart' },
+    { value: '04', label: 'Nisan' },
+    { value: '05', label: 'Mayıs' },
+    { value: '06', label: 'Haziran' },
+    { value: '07', label: 'Temmuz' },
+    { value: '08', label: 'Ağustos' },
+    { value: '09', label: 'Eylül' },
+    { value: '10', label: 'Ekim' },
+    { value: '11', label: 'Kasım' },
+    { value: '12', label: 'Aralık' }
+  ];
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 3 }, (_, i) => currentYear + i);
+
+  // API base URL
+  const API_BASE_URL = 'http://localhost:3002/api';
+
+  // URL parametrelerini kontrol et ve destinasyon filtresini ayarla
+  useEffect(() => {
+    const pathSegments = location.pathname.split('/');
+    const searchQuery = searchParams.get('search');
+
+    // URL'den destinasyon bilgisini al (/tours/cappadocia gibi)
+    if (pathSegments.length > 2 && pathSegments[2]) {
+      const destination = pathSegments[2];
+      const destinationNames = {
+        'cappadocia': 'Kapadokya',
+        'istanbul': 'İstanbul',
+        'pamukkale': 'Pamukkale',
+        'ephesus': 'Efes',
+        'antalya': 'Antalya',
+        'trabzon': 'Trabzon',
+        'bursa': 'Bursa',
+        'konya': 'Konya'
+      };
+
+      const destinationName = destinationNames[destination.toLowerCase()] || destination;
+      setDestinationFilter(destinationName);
+      setPageTitle(`${destinationName} Turları`);
+    }
+    // Search parametresinden destinasyon bilgisini al (?search=kapadokya gibi)
+    else if (searchQuery) {
+      setDestinationFilter(searchQuery);
+      setPageTitle(`${searchQuery.charAt(0).toUpperCase() + searchQuery.slice(1)} Turları`);
+    } else {
+      setDestinationFilter('');
+      setPageTitle('Tüm Turlar');
+    }
+  }, [location.pathname, searchParams]);
+
+  // Fetch tours from API
+  const fetchTours = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const queryParams = new URLSearchParams();
+
+      // Add filters to query params
+      if (filters.category) queryParams.append('category', filters.category);
+      if (filters.priceRange[0] > 0) queryParams.append('minPrice', filters.priceRange[0]);
+      if (filters.priceRange[1] < 3000) queryParams.append('maxPrice', filters.priceRange[1]);
+
+      // Destinasyon filtresini ekle
+      if (destinationFilter) {
+        queryParams.append('destination', destinationFilter);
+      }
+
+      const endpoint = queryParams.toString() ? `/tours/search?${queryParams}` : '/tours';
+      const response = await fetch(`${API_BASE_URL}${endpoint}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        setTours(data.data || []);
+      } else {
+        throw new Error(data.error || 'API error');
+      }
+
+    } catch (err) {
+      console.error('Error fetching tours:', err);
+      setError('Tur verileri yüklenirken bir hata oluştu.');
+      // Fallback to existing sample data
+      setTours([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Load tours on component mount and when filters change
+  useEffect(() => {
+    fetchTours();
+  }, [destinationFilter, filters]);
 
   const domesticTours = [
     {
@@ -89,14 +208,25 @@ const ToursPage = () => {
     }
   ];
 
-  const currentTours = activeTab === 'domestic' ? domesticTours : internationalTours;
+  // API'den gelen turları kullan, yoksa fallback olarak sample data
+  const currentTours = tours.length > 0 ? tours : (activeTab === 'domestic' ? domesticTours : internationalTours);
 
   return (
     <div className="tours-page">
       <div className="container">
         <div className="page-header">
-          <h1>Turlar</h1>
-          <p>Unutulmaz seyahat deneyimleri için özenle seçilmiş turlarımızı keşfedin</p>
+          <h1>{pageTitle}</h1>
+          <p>{loading ? 'Yükleniyor...' : `${tours.length} tur bulundu`}</p>
+          {destinationFilter && (
+            <div className="filter-info">
+              <span className="filter-tag">📍 {destinationFilter}</span>
+            </div>
+          )}
+          {error && (
+            <div className="error-message" style={{color: 'red', marginTop: '10px'}}>
+              {error}
+            </div>
+          )}
         </div>
 
         {/* Tour Search */}
@@ -111,10 +241,38 @@ const ToursPage = () => {
                 />
               </div>
             </div>
-            <div className="input-group-with-icon">
-              <div className="input-with-icon">
-                <Calendar size={14} className="input-icon" />
-                <input type="date" />
+            <div className="date-selector-group">
+              <div className="input-group-with-icon">
+                <div className="input-with-icon">
+                  <Calendar size={14} className="input-icon" />
+                  <select
+                    value={selectedMonth}
+                    onChange={(e) => setSelectedMonth(e.target.value)}
+                  >
+                    <option value="">Ay Seçin</option>
+                    {months.map((month) => (
+                      <option key={month.value} value={month.value}>
+                        {month.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="input-group-with-icon">
+                <div className="input-with-icon">
+                  <Calendar size={14} className="input-icon" />
+                  <select
+                    value={selectedYear}
+                    onChange={(e) => setSelectedYear(e.target.value)}
+                  >
+                    <option value="">Yıl Seçin</option>
+                    {years.map((year) => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </div>
             <div className="input-group-with-icon">
@@ -151,7 +309,17 @@ const ToursPage = () => {
 
         {/* Tours Grid */}
         <div className="tours-grid">
-          {currentTours.map((tour) => (
+          {loading ? (
+            <div className="loading-state" style={{gridColumn: '1 / -1', textAlign: 'center', padding: '50px'}}>
+              <Loader2 className="spinner" size={32} style={{animation: 'spin 1s linear infinite'}} />
+              <p>Turlar yükleniyor...</p>
+            </div>
+          ) : currentTours.length === 0 ? (
+            <div style={{gridColumn: '1 / -1', textAlign: 'center', padding: '50px'}}>
+              <p>Bu destinasyon için tur bulunamadı.</p>
+            </div>
+          ) : (
+            currentTours.map((tour) => (
             <div key={tour.id} className="tour-card">
               <div className="tour-image">
                 <img src={tour.image} alt={tour.name} />
@@ -211,8 +379,8 @@ const ToursPage = () => {
 
                 <div className="tour-footer">
                   <div className="tour-pricing">
-                    <span className="old-price">{tour.oldPrice} TL</span>
-                    <span className="current-price">{tour.price} TL</span>
+                    {tour.oldPrice && <span className="old-price">{tour.oldPrice}</span>}
+                    <span className="current-price">{tour.price}</span>
                     <span className="per-person">/ kişi</span>
                   </div>
                   <button className="btn btn-secondary">
@@ -221,7 +389,7 @@ const ToursPage = () => {
                 </div>
               </div>
             </div>
-          ))}
+          )))}
         </div>
 
         {/* Why Choose Our Tours */}

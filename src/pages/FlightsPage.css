@@ -32,10 +32,17 @@
   margin-bottom: 20px;
 }
 
+.flight-search-header {
+  background: #f8f9fa;
+  margin: -16px -16px 16px -16px;
+  padding: 16px;
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
 .trip-type-selector {
   display: flex;
   gap: 12px;
-  margin-bottom: 12px;
 }
 
 .trip-option {
@@ -58,9 +65,59 @@
 
 .search-inputs-row {
   display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Row Styling - Desktop: 2 grid alt alta */
+.route-row,
+.date-row,
+.passenger-class-row {
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 8px;
   align-items: center;
-  flex-wrap: wrap;
+}
+
+.route-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 8px;
+  align-items: center;
+}
+
+.swap-button {
+  grid-column: 2;
+  justify-self: center;
+}
+
+.search-button-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+/* Mobile/Responsive adjustments */
+@media (max-width: 768px) {
+  .route-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .route-row .input-group-with-icon:first-child {
+    order: 1;
+  }
+
+  .swap-button {
+    order: 2;
+    justify-self: center;
+    margin: 8px 0;
+  }
+
+  .route-row .input-group-with-icon:last-child {
+    order: 3;
+  }
 }
 
 .swap-button {
@@ -134,6 +191,7 @@
   font-size: 12px;
   white-space: nowrap;
   flex-shrink: 0;
+  border-radius: 8px;
 }
 
 /* Flight Results */

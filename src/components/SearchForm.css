@@ -61,9 +61,44 @@
   grid-template-columns: 2fr 1fr 1fr auto;
 }
 
+.flight-options {
+  grid-column: 1 / -1;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.radio-group {
+  display: block !important;
+  width: 100%;
+}
+
+.radio-option {
+  display: block !important;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.radio-option input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  margin: 0 8px 0 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.radio-option label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .field-group {
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .field-group input,
@@ -86,6 +121,61 @@
 
 .field-group input::placeholder {
   color: var(--text-secondary);
+}
+
+/* Date input specific styles */
+.field-group input[type="date"] {
+  position: relative;
+  z-index: 1;
+}
+
+.field-group input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  color: transparent;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Calendar positioning */
+.field-group input[type="date"]:focus {
+  position: relative;
+  z-index: 10;
+}
+
+/* Ensure calendar appears below the form */
+.search-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Calendar dropdown positioning */
+.field-group input[type="date"]::-webkit-datetime-edit {
+  padding: 0;
+}
+
+.field-group input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+  padding: 0;
+}
+
+.field-group input[type="date"]::-webkit-datetime-edit-text {
+  padding: 0 4px;
+}
+
+/* Custom calendar positioning */
+.field-group input[type="date"]:focus::-webkit-calendar-picker-indicator {
+  z-index: 999;
+}
+
+/* Ensure the calendar appears in the correct position */
+.search-form-container {
+  position: relative;
+  z-index: 1;
 }
 
 .guest-info,

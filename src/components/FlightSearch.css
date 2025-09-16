@@ -1,0 +1,215 @@
+/* UÇUŞ ARAMA COMPONENT STİLLERİ - 2 SATIR TASARIMI */
+.flight-search-container {
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+/* 1. SATIR: UÇUŞ TİPİ SEÇİMİ */
+.flight-type-row {
+  display: relative;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.radio-group {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  width: 100%;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.radio-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #0066cc;
+  cursor: pointer;
+  margin: 0;
+}
+
+.radio-option label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #1f2937;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* 2. SATIR: ARAMA ALANLARI */
+.search-fields-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr auto;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.input-with-icon {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  align-items: center;
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  background: white;
+  transition: all 0.2s ease;
+  height: 48px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.input-with-icon:hover {
+  border-color: #0066cc;
+}
+
+.input-with-icon .leading-icon {
+  color: #6b7280;
+  font-size: 16px;
+}
+
+.input-with-icon input {
+  border: none;
+  padding: 0;
+  background: transparent;
+  font-size: 14px;
+  color: #1f2937;
+  outline: none;
+  width: 100%;
+}
+
+.input-with-icon input::placeholder {
+  color: #9ca3af;
+}
+
+.input-with-icon:focus-within {
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+.passenger-count,
+.class-text {
+  font-size: 13px;
+  color: #1f2937;
+  font-weight: 500;
+}
+
+.search-button {
+  background: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  height: 48px;
+  white-space: nowrap;
+  min-width: 120px;
+}
+
+.search-button:hover {
+  background: #0052a3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 102, 204, 0.3);
+}
+
+/* DATE INPUT ÖZEL STİLLER */
+.input-with-icon input[type="date"] {
+  position: relative;
+  z-index: 1;
+}
+
+.input-with-icon input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  color: transparent;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* RESPONSIVE TASARIM */
+@media (max-width: 1200px) {
+  .search-fields-row {
+    grid-template-columns: 1.2fr 1.2fr 1fr 1fr 1fr auto;
+    gap: 10px;
+  }
+  
+  .field-group:nth-child(6) {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .search-fields-row {
+    grid-template-columns: 1fr 1fr 1fr 1fr auto;
+    gap: 10px;
+  }
+  
+  .field-group:nth-child(5),
+  .field-group:nth-child(6) {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .radio-group {
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .search-fields-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .field-group:nth-child(5),
+  .field-group:nth-child(6) {
+    display: block;
+  }
+
+  .search-button {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+  }
+
+  .radio-option label {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .radio-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .search-fields-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}

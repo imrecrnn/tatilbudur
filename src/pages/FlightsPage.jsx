@@ -139,112 +139,126 @@ const FlightsPage = () => {
 
         {/* Flight Search */}
         <div className="flight-search">
-          <div className="trip-type-selector">
-            <label className="trip-option">
-              <input
-                type="radio"
-                value="roundtrip"
-                checked={tripType === 'roundtrip'}
-                onChange={(e) => setTripType(e.target.value)}
-              />
-              <span>Gidiş-Dönüş</span>
-            </label>
-            <label className="trip-option">
-              <input
-                type="radio"
-                value="oneway"
-                checked={tripType === 'oneway'}
-                onChange={(e) => setTripType(e.target.value)}
-              />
-              <span>Tek Yön</span>
-            </label>
+          <div className="flight-search-header">
+            <div className="trip-type-selector">
+              <label className="trip-option">
+                <input
+                  type="radio"
+                  value="roundtrip"
+                  checked={tripType === 'roundtrip'}
+                  onChange={(e) => setTripType(e.target.value)}
+                />
+                <span>Gidiş-Dönüş</span>
+              </label>
+              <label className="trip-option">
+                <input
+                  type="radio"
+                  value="oneway"
+                  checked={tripType === 'oneway'}
+                  onChange={(e) => setTripType(e.target.value)}
+                />
+                <span>Tek Yön</span>
+              </label>
+            </div>
           </div>
 
           <form className="flight-search-form">
             <div className="search-inputs-row">
-              <div className="input-group-with-icon">
-                <div className="input-with-icon">
-                  <Plane size={14} className="input-icon" />
-                  <input
-                    type="text"
-                    placeholder="Nereden?"
-                    value={searchData.from}
-                    onChange={(e) => setSearchData({...searchData, from: e.target.value})}
-                  />
+              {/* Route Row */}
+              <div className="route-row">
+                <div className="input-group-with-icon">
+                  <div className="input-with-icon">
+                    <Plane size={14} className="input-icon" />
+                    <input
+                      type="text"
+                      placeholder="Nereden?"
+                      value={searchData.from}
+                      onChange={(e) => setSearchData({...searchData, from: e.target.value})}
+                    />
+                  </div>
+                </div>
+
+                <button type="button" className="swap-button">
+                  ⇄
+                </button>
+
+                <div className="input-group-with-icon">
+                  <div className="input-with-icon">
+                    <Plane size={14} className="input-icon" />
+                    <input
+                      type="text"
+                      placeholder="Nereye?"
+                      value={searchData.to}
+                      onChange={(e) => setSearchData({...searchData, to: e.target.value})}
+                    />
+                  </div>
                 </div>
               </div>
-              
-              <button type="button" className="swap-button">
-                ⇄
-              </button>
-              
-              <div className="input-group-with-icon">
-                <div className="input-with-icon">
-                  <Plane size={14} className="input-icon" />
-                  <input
-                    type="text"
-                    placeholder="Nereye?"
-                    value={searchData.to}
-                    onChange={(e) => setSearchData({...searchData, to: e.target.value})}
-                  />
-                </div>
-              </div>
-              
-              <div className="input-group-with-icon">
-                <div className="input-with-icon">
-                  <Calendar size={14} className="input-icon" />
-                  <input
-                    type="date"
-                    value={searchData.departDate}
-                    onChange={(e) => setSearchData({...searchData, departDate: e.target.value})}
-                  />
-                </div>
-              </div>
-              
-              {tripType === 'roundtrip' && (
+
+              {/* Date Row */}
+              <div className="date-row">
                 <div className="input-group-with-icon">
                   <div className="input-with-icon">
                     <Calendar size={14} className="input-icon" />
                     <input
                       type="date"
-                      value={searchData.returnDate}
-                      onChange={(e) => setSearchData({...searchData, returnDate: e.target.value})}
+                      value={searchData.departDate}
+                      onChange={(e) => setSearchData({...searchData, departDate: e.target.value})}
                     />
                   </div>
                 </div>
-              )}
-              
-              <div className="input-group-with-icon">
-                <div className="input-with-icon">
-                  <Users size={14} className="input-icon" />
-                  <select
-                    value={searchData.passengers}
-                    onChange={(e) => setSearchData({...searchData, passengers: parseInt(e.target.value)})}
-                  >
-                    {[1,2,3,4,5,6,7,8,9].map(num => (
-                      <option key={num} value={num}>{num} Yolcu</option>
-                    ))}
-                  </select>
+
+                {tripType === 'roundtrip' && (
+                  <div className="input-group-with-icon">
+                    <div className="input-with-icon">
+                      <Calendar size={14} className="input-icon" />
+                      <input
+                        type="date"
+                        value={searchData.returnDate}
+                        onChange={(e) => setSearchData({...searchData, returnDate: e.target.value})}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Passengers and Class Row */}
+              <div className="passenger-class-row">
+                <div className="input-group-with-icon">
+                  <div className="input-with-icon">
+                    <Users size={14} className="input-icon" />
+                    <select
+                      value={searchData.passengers}
+                      onChange={(e) => setSearchData({...searchData, passengers: parseInt(e.target.value)})}
+                    >
+                      {[1,2,3,4,5,6,7,8,9].map(num => (
+                        <option key={num} value={num}>{num} Yolcu</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="input-group-with-icon">
+                  <div className="input-with-icon">
+                    <span className="input-icon">✈</span>
+                    <select
+                      value={searchData.class}
+                      onChange={(e) => setSearchData({...searchData, class: e.target.value})}
+                    >
+                      <option value="economy">Ekonomi</option>
+                      <option value="business">Business</option>
+                      <option value="first">First Class</option>
+                    </select>
+                  </div>
                 </div>
               </div>
-              
-              <div className="input-group-with-icon">
-                <div className="input-with-icon">
-                  <span className="input-icon">✈</span>
-                  <select
-                    value={searchData.class}
-                    onChange={(e) => setSearchData({...searchData, class: e.target.value})}
-                  >
-                    <option value="economy">Ekonomi</option>
-                    <option value="business">Business</option>
-                    <option value="first">First Class</option>
-                  </select>
-                </div>
+
+              {/* Search Button Row */}
+              <div className="search-button-row">
+                <button type="submit" className="btn btn-primary search-flights-btn">
+                  Uçuş Ara
+                </button>
               </div>
-              
-              <button type="submit" className="btn btn-primary search-flights-btn">
-                Uçuş Ara
-              </button>
             </div>
           </form>
         </div>

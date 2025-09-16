@@ -41,25 +41,58 @@ const offices = [
 
 const cities = ['İstanbul', 'Antalya', 'İzmir'];
 
+const cityDistricts = {
+  'İstanbul': ['Hepsini Seç', 'Ümraniye', 'Levent'],
+  'Antalya': ['Hepsini Seç', 'Merkez'],
+  'İzmir': ['Hepsini Seç', 'Konak']
+};
+
 const SalesOfficesPage = () => {
   const mapSrc =
     'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6019.496811930023!2d29.111664000000005!3d41.03076!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cac9d43f9f5f79%3A0x3766d1cfb3c6fb8d!2sTatilBudur!5e0!3m2!1str!2str!4v1757671423977!5m2!1str!2str';
 
-  const [selectedCity, setSelectedCity] = useState('İstanbul');
-  const [showAll, setShowAll] = useState('Hepsini Göster');
+  const [selectedCity, setSelectedCity] = useState('');
+  const [selectedDistrict, setSelectedDistrict] = useState('Hepsini Seç');
 
   const filtered = useMemo(() => {
-    if (showAll === 'Hepsini Göster') {
-      // Show only Merkez Satış Ofisleri
-      return offices.filter((o) => o.group === 'Merkez Satış Ofisleri');
+    // If no city selected, show all offices
+    if (!selectedCity) {
+      return offices;
     }
-    // Show offices for selected city
-    return offices.filter((o) => o.city === selectedCity);
-  }, [selectedCity, showAll]);
+    
+    // Filter by city first
+    let cityFiltered = offices.filter((o) => o.city === selectedCity);
+    
+    // If no district selected or "Hepsini Seç" selected, return city filtered results
+    if (!selectedDistrict || selectedDistrict === 'Hepsini Seç') {
+      return cityFiltered;
+    }
+    
+    // Filter by district based on office addresses
+    return cityFiltered.filter((o) => {
+      const address = o.address.toLowerCase();
+      switch (selectedDistrict) {
+        case 'Ümraniye':
+          return address.includes('ümraniye');
+        case 'Levent':
+          return address.includes('levent');
+        case 'Merkez':
+          return address.includes('antalya') && address.includes('merkez');
+        case 'Konak':
+          return address.includes('konak');
+        default:
+          return true;
+      }
+    });
+  }, [selectedCity, selectedDistrict]);
 
   const handleCityChange = (city) => {
     setSelectedCity(city);
-    setShowAll(''); // Clear the "Hepsini Göster" selection when city is selected
+    setSelectedDistrict('Hepsini Seç'); // Reset district selection when city is selected
+  };
+
+  const handleDistrictChange = (district) => {
+    setSelectedDistrict(district);
   };
 
   return (
@@ -108,18 +141,18 @@ const SalesOfficesPage = () => {
         />
       </div>
 
-      <p style={{
+      <div style={{
         marginTop: 12,
         color: '#4b5563',
         fontSize: 14,
         textAlign: 'center'
       }}>
-        Size en yakın satış ofisimize şehir, semt / ilçe seçimi yaparak
-        ulaşabilirsiniz. 
-        <p> Satış ofislerimizin adres ve telefon bilgilerine
+        <p>Size en yakın satış ofisimize şehir, semt / ilçe seçimi yaparak
+        ulaşabilirsiniz.</p>
+        <p>Satış ofislerimizin adres ve telefon bilgilerine
         ulaşabilir, dilerseniz satış ofislerimizi harita üzerinden
         inceleyebilirsiniz.</p>
-      </p>
+      </div>
       
       <div
         style={{
@@ -140,6 +173,7 @@ const SalesOfficesPage = () => {
             minWidth: 180,
           }}
         >
+          <option value="">Şehir Seçin</option>
           {cities.map((city) => (
             <option key={city} value={city}>
               {city}
@@ -148,16 +182,27 @@ const SalesOfficesPage = () => {
         </select>
 
         <select
-          value={showAll}
-          onChange={(e) => setShowAll(e.target.value)}
+          value={selectedDistrict}
+          onChange={(e) => handleDistrictChange(e.target.value)}
+          disabled={!selectedCity}
           style={{
             padding: '10px 12px',
             border: '1px solid var(--border-color)',
             borderRadius: 8,
             minWidth: 180,
+            backgroundColor: !selectedCity ? '#f9fafb' : '#fff',
+            color: !selectedCity ? '#9ca3af' : '#111827',
+            cursor: !selectedCity ? 'not-allowed' : 'pointer',
           }}
         >
-          <option value="Hepsini Göster">Hepsini Göster</option>
+          <option value="Hepsini Seç">
+            {selectedCity ? 'Hepsini Seç' : 'Önce İl Seçin'}
+          </option>
+          {selectedCity && cityDistricts[selectedCity]?.slice(1).map((district) => (
+            <option key={district} value={district}>
+              {district}
+            </option>
+          ))}
         </select>
       </div>
 

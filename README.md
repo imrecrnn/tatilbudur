@@ -1,12 +1,52 @@
-# React + Vite
+# TatilBudur Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TatilBudur web sitesi için React tabanlı frontend uygulaması.
 
-Currently, two official plugins are available:
+## Özellikler
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🏖️ **Hero Banner** - Ana sayfa için çekici görsel tasarım
+- 🏨 **Otel Vitrin** - Öne çıkan otellerin görüntülenmesi
+- 🌍 **Destinasyon Galerisi** - Popüler tatil yerlerinin gösterimi
+- 📱 **Responsive Tasarım** - Tüm cihazlarda uyumlu görünüm
+- 🎨 **Modern UI** - TatilBudur marka kimliğine uygun tasarım
 
-## Expanding the ESLint configuration
+## Kurulum
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+```
+
+## Geliştirme
+
+```bash
+npm run dev
+```
+
+Uygulama http://localhost:5175 adresinde çalışacaktır.
+
+## Build
+
+```bash
+npm run build
+```
+
+## Güncellenen Özellikler
+
+### 2024-09-13
+- ✅ Hero banner eklendi
+- ✅ Gerçek otel görsellerine güncellendi (Unsplash API)
+- ✅ Responsive tasarım iyileştirildi
+- ✅ TatilBudur logolarıyla sponsor bölümü güncellendi
+- ✅ Promo kartları ve özel fırsatlar bölümü eklendi
+
+### Görsel Kaynakları
+- Otel ve destinasyon görselleri: Unsplash API
+- Sponsor logoları: /src/assets/ klasöründe
+
+## Teknolojiler
+
+- React 19.1.1
+- Vite 7.1.2
+- Lucide React (İkonlar)
+- React Router DOM
+- Date-fns

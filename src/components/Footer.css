@@ -8,6 +8,58 @@
   overflow: hidden;
 }
 
+/* Premium Page Footer Styles */
+.premium-page-layout .footer {
+  background: #ffffff;
+  color: #000000;
+}
+
+.premium-page-layout .footer h4,
+.premium-page-layout .footer h5,
+.premium-page-layout .footer p,
+.premium-page-layout .footer span {
+  color: #000000 !important;
+}
+
+.premium-page-layout .footer a {
+  color: #333333 !important;
+  text-decoration: none;
+}
+
+.premium-page-layout .footer a:hover {
+  color: #1e3a8a !important;
+}
+
+.premium-page-layout .footer .footer-top-row {
+  background: #ffffff;
+  color: #000000;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.premium-page-layout .footer .footer-unified-section {
+  background: #ffffff;
+}
+
+.premium-page-layout .footer .call-center-section {
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+}
+
+.premium-page-layout .footer .disclaimer-section {
+  background: #ffffff;
+  color: #000000;
+}
+
+.premium-page-layout .footer .legal-certification-section {
+  background: #f8f9fa;
+  border-top: 1px solid #e5e7eb;
+}
+
+.premium-page-layout .footer .copyright-section {
+  background: #f8f9fa;
+  color: #666666;
+}
+
 .footer::before {
   content: '';
   position: absolute;

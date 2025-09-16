@@ -1,0 +1,58 @@
+// Firebase Firestore Güvenlik Kuralları
+// Bu kuralları Firebase Console > Firestore Database > Rules bölümüne kopyalayın
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Rezervasyonlar koleksiyonu için kurallar
+    match /reservations/{reservationId} {
+      // Herkes rezervasyon oluşturabilir (ödeme sonrası)
+      allow create: if true;
+      
+      // Herkes rezervasyon okuyabilir (e-posta ve kod ile arama için)
+      allow read: if true;
+      
+      // Sadece adminler rezervasyon güncelleyebilir/silebilir
+      allow update, delete: if false;
+    }
+    
+    // Kullanıcılar koleksiyonu için kurallar
+    match /users/{userId} {
+      // Kullanıcı sadece kendi verilerini okuyabilir
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Diğer tüm koleksiyonlar için varsayılan kural
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+// Alternatif olarak, daha güvenli kurallar için:
+// (Sadece kimlik doğrulaması yapılmış kullanıcılar için)
+
+/*
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Rezervasyonlar koleksiyonu için kurallar
+    match /reservations/{reservationId} {
+      // Kimlik doğrulaması yapılmış kullanıcılar rezervasyon oluşturabilir
+      allow create: if request.auth != null;
+      
+      // Kimlik doğrulaması yapılmış kullanıcılar rezervasyon okuyabilir
+      allow read: if request.auth != null;
+      
+      // Sadece adminler rezervasyon güncelleyebilir/silebilir
+      allow update, delete: if false;
+    }
+    
+    // Kullanıcılar koleksiyonu için kurallar
+    match /users/{userId} {
+      // Kullanıcı sadece kendi verilerini okuyabilir
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}
+*/

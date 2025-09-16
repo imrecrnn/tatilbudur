@@ -29,14 +29,13 @@
   display: flex;
   justify-content: flex-start;
   gap: 8px;
-  margin-bottom: -1px;
+  margin-bottom: 0;
 }
 
 .search-tab {
   padding: 16px 24px;
-  background: var(--background-white);
-  border: 2px solid var(--border-color);
-  border-bottom: 2px solid transparent;
+  background: transparent;
+  border: none;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
@@ -46,35 +45,28 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border-top-left-radius: var(--border-radius);
-  border-top-right-radius: var(--border-radius);
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  box-shadow: var(--shadow-light);
   position: relative;
 }
 
 .search-tab.active {
   color: var(--primary-color);
-  border-color: var(--primary-color);
-  border-bottom-color: var(--background-white);
-  background: var(--background-white);
+  background: transparent;
   z-index: 1;
 }
 
 .search-tab.active::after {
   content: '';
   position: absolute;
-  bottom: -2px;
-  left: -2px;
-  right: -2px;
-  height: 2px;
-  background: var(--background-white);
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--primary-color);
+  border-radius: 2px;
 }
 
 .search-tab:hover:not(.active) {
   color: var(--primary-color);
-  border-color: var(--primary-color);
   transform: translateY(-2px);
 }
 
@@ -199,10 +191,26 @@
   gap: 20px;
 }
 
+.flight-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.flight-row-1 {
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.flight-row-2 {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  gap: 16px;
+}
+
 .flight-type-buttons {
   display: flex;
   gap: 12px;
-  margin-bottom: 20px;
 }
 
 .flight-type-btn {
@@ -318,10 +326,13 @@
   box-shadow: var(--shadow-medium);
   z-index: 1000;
   margin-top: 4px;
+  min-width: 280px;
+  width: max-content;
 }
 
-.calendar-grid {
+.calendar-container {
   padding: 16px;
+  min-width: 280px;
 }
 
 .calendar-header {
@@ -329,25 +340,39 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+  gap: 8px;
 }
 
 .calendar-header button {
   background: none;
   border: none;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  transition: var(--transition);
+  min-width: 32px;
 }
 
 .calendar-header button:hover {
   background: var(--background-light);
+  color: var(--primary-color);
+}
+
+.month-year-display {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 16px;
 }
 
 .calendar-days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
+  gap: 2px;
+  margin-bottom: 16px;
 }
 
 .day-header {
@@ -355,25 +380,76 @@
   font-size: 12px;
   font-weight: 600;
   color: var(--text-secondary);
-  padding: 8px;
+  padding: 8px 4px;
 }
 
 .calendar-day {
   text-align: center;
-  padding: 8px;
+  padding: 8px 4px;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 14px;
   transition: var(--transition);
+  position: relative;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .calendar-day:hover {
   background: var(--background-light);
+  color: var(--primary-color);
 }
 
 .calendar-day.selected {
   background: var(--primary-color);
   color: white;
+}
+
+.calendar-day.in-range {
+  background: rgba(0, 102, 204, 0.1);
+  color: var(--primary-color);
+}
+
+.calendar-day.empty {
+  cursor: default;
+  opacity: 0;
+}
+
+.calendar-day.empty:hover {
+  background: transparent;
+}
+
+.calendar-footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+}
+
+.apply-button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  min-width: 100px;
+}
+
+.apply-button:hover {
+  background: #0052a3;
+  transform: translateY(-1px);
+}
+
+.apply-button:disabled {
+  background: var(--text-secondary);
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* Guest Picker */
@@ -410,6 +486,10 @@
   box-shadow: var(--shadow-medium);
   z-index: 1000;
   margin-top: 4px;
+  min-width: 280px;
+}
+
+.guest-container {
   padding: 16px;
 }
 
@@ -423,6 +503,14 @@
 
 .guest-row:last-child {
   border-bottom: none;
+}
+
+.guest-footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+  margin-top: 8px;
 }
 
 .counter {
@@ -510,7 +598,7 @@
   box-shadow: var(--shadow-medium);
   z-index: 1000;
   margin-top: 4px;
-  padding: 16px;
+  min-width: 280px;
 }
 
 /* Tour Period Options */
@@ -627,6 +715,25 @@
   color: var(--primary-color);
 }
 
+/* Dropdown backdrop overlay */
+.dropdown-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.dropdown-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .hotel-search,
@@ -644,7 +751,7 @@
     margin-top: 8px;
   }
 
-  .flight-search-fields {
+  .flight-row-2 {
     grid-template-columns: 1fr 1fr;
     gap: 16px;
   }
@@ -653,9 +760,47 @@
     grid-column: 1 / -1;
   }
 
-  .flight-search-fields .search-button {
+  .flight-row-2 .search-button {
     grid-column: 1 / -1;
     margin-top: 8px;
+  }
+
+  /* Responsive datepicker positioning */
+  .date-picker-dropdown {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    max-width: calc(100vw - 32px);
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+    z-index: 2000;
+  }
+
+  .guest-picker-dropdown,
+  .passenger-picker-dropdown,
+  .class-picker-dropdown {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 280px;
+    max-width: calc(100vw - 32px);
+    z-index: 2000;
+  }
+
+  /* Mobile dropdown styles */
+  .mobile-dropdown {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 320px !important;
+    max-width: calc(100vw - 32px) !important;
+    max-height: calc(100vh - 32px) !important;
+    overflow-y: auto !important;
+    z-index: 2000 !important;
   }
 }
 
@@ -686,7 +831,7 @@
 
   .hotel-search,
   .tour-search,
-  .flight-search-fields {
+  .flight-row-2 {
     grid-template-columns: 1fr;
     gap: 16px;
   }
